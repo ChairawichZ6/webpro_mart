@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MartNextGen Shop</title>
+    <link rel="stylesheet" href="css/all.css">
+    <link rel="stylesheet" href="css/login.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;500&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <div id="app">
+        <!-- (1) Tab Menu -->
+        <nav class="navbar is-link" role="navigation" aria-label="main navigation">
+            <!-- Logo -->
+            <div class="navbar-brand">
+                <div class="navbar-item">
+                    <h1 class="is-size-3 has-text-weight-semibold">MartNextGen</h1>
+                </div>
+            </div>
+        </nav>
+
+        <!-- (2) login -->
+        <div id="detail_login" class="container">
+            <div class="card px-3">
+                <div class="card-content">
+                    <!-- email -->
+                    <div class="field">
+                        <p class="title">
+                            สมัครสมาชิก
+                        </p>
+                        <hr>
+                        <form action="/" method="GET">
+                            <!-- Fname + Lname -->
+                            <div class="field">
+                                <div class="columns">
+                                    <div class="column is-6">
+                                        <label class="label has-text-weight-light">ชื่อจริง</label>
+                                        <input class="input" type="text">
+                                    </div>
+                                    <div class="column is-6">
+                                        <label class="label has-text-weight-light">นามสกุล</label>
+                                        <input class="input" type="text">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Phone + Date -->
+                            <div class="field">
+                                <div class="columns">
+                                    <div class="column is-6">
+                                        <label class="label has-text-weight-light">เบอร์โทรศัพท์</label>
+                                        <input class="input" type="text">
+                                    </div>
+                                    <div class="column is-6">
+                                        <label class="label has-text-weight-light">วันเกิด</label>
+                                        <input class="input" type="date">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Address -->
+                            <div class="field">
+                                <dic class="control">
+                                    <label class="label has-text-weight-light">ที่อยู่</label>
+                                    <textarea class="textarea"></textarea>
+                                </dic>
+                            </div>
+                            <!-- Email -->
+                            <div class="field">
+                                <dic class="control">
+                                    <label class="label has-text-weight-light">Email</label>
+                                    <input class="input" type="email">
+                                </dic>
+                            </div>
+                            <!-- Password -->
+                            <div class="field">
+                                <div class="control">
+                                    <label class="label has-text-weight-light">Password</label>
+                                    <input class="input" :type="checkHideEye ? 'text' : 'password' " placeholder="Password">
+                                    <span id="hide" class="button is-right" @click="checkHideEye = !checkHideEye">
+                                        <i class="fa fa-eye" :class="checkHideEye ? 'is-active' : 'is-hidden'"></i>
+                                        <i class="fa far fa-eye-slash" :class="checkHideEye ? 'is-hidden' : 'is-active'"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- btn -->
+                            <div class="field mb-5 mt-6">
+                                <button class="button is-dark is-rounded" style="width: 100%;" type="submit">สมัครสมาชิก</button>
+                            </div>
+                        </form>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+        <!-- (3) ส่วนท้าย -->
+        <footer id="end" class="footer">
+            <div class="content has-text-centered">
+                © สงวนลิขสิทธิ์ 2022 โดย ต้นตาล เองจะใครล่ะ จำกัด
+            </div>
+        </footer>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                checkHideEye: false
+            }
+        })
+    </script>
+</body>
+
+</html>
