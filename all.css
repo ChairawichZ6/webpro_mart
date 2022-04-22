@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@100;400&display=swap');
+
+body{
+    background: #F5F5F5;
+    font-family: 'Prompt', sans-serif;
+}
+#app{
+    font-family: 'Prompt', sans-serif;
+}
+/* #btn {
+    font-family: 'Prompt', sans-serif;
+} */
+
+.navbar-brand{
+    padding: 20px;
+}
+#end{
+    background: hsl(217, 71%, 53%);
+    color: aliceblue;
+    font-weight: 400;
+    padding: 50px;
+    width: 100%;
+}
+.card {
+    /* width: 500px; */
+    margin: auto;
+}
