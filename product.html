@@ -84,7 +84,7 @@
         </nav>
 
         <!-- (2) ส่วน crad -->
-        <div class="container is-max-desktop" style="padding-top: 6%; padding-bottom: 6%;">
+        <div class="container is-max-desktop">
             <!-- ส่วนลด -->
             <div class="columns">
                 <div class="column">
@@ -93,19 +93,18 @@
                             <div class="media">
                                 <!-- รูปภาพ -->
                                 <div class="media-left">
-                                    <figure class="image">
-                                        <img src="http://1.bp.blogspot.com/-CY6Dp8YzhYU/UUtV35dxZeI/AAAAAAAAAGg/rhdO471T3kw/s1600/bestin-product-range.jpg" alt="Placeholder image"
+                                    <figure class="image" style="max-width: 250px;">
+                                        <img :src="product.image" alt="Placeholder image"
                                             alt="Placeholder image">
                                     </figure>
                                 </div>
-                                <div class="media-content">
+                                <div class="media-content pl-6">
                                     <div class="content">
                                         <p class="is-size-7 has-text-grey-light mb-4">รหัส #{{ product.id }}</p>
                                         <p class="title has-text-black has-text-weight-normal is-size-4 pb-2">{{ product.name }}</p>
-                                        <p class="subtitle has-text-black has-text-weight-light is-size-6">รายละเอียดสินค้า
-                                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi totam neque repudiandae eius quam quisquam vitae accusamus a sit, distinctio modi magni tempora doloribus facilis iure tenetur debitis, dolorum laudantium?
+                                        <p class="subtitle has-text-black has-text-weight-light is-size-6">ตุ๊กตายางแอนาเบลนำเข้าจากอังกฤษ
                                         </p>
-                                        <p class="is-size-4 has-text-weight-semibold">฿ 100
+                                        <p class="is-size-4 has-text-weight-semibold">฿ {{ product.price }}
                                         </p>
                                     </div>
                                     <hr style="height: 1px;">
@@ -138,8 +137,6 @@
                                             </div>
                                         </div>
                                     </div>
-
-
                                 </div>
 
                             </div>
@@ -151,7 +148,7 @@
 
         <!-- (3) ส่วนท้าย -->
         <footer id="end" class="footer">
-            <div class="content has-text-centered">
+            <div class="content has-text-centered" id="footer-text">
                 © สงวนลิขสิทธิ์ 2022 โดย MartNextGen จำกัด
             </div>
         </footer>
@@ -165,9 +162,10 @@
                 counter: 1,
                 products: [
                     {
-                        id: 1,
-                        name: 'pro1',
-                        price: 100
+                        id: 3,
+                        name: 'Anabell Doll',
+                        price: 660,
+                        image: 'https://cdn.discordapp.com/attachments/871416792613027851/969931976456962078/unknown.png'
                     },
 
                 ]
