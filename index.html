@@ -87,11 +87,34 @@
         <div class="container is-max-desktop">
             <!-- ส่วนลด -->
             <section class="section">
-                <h1 class="title">โค้ดส่วนลด</h1>
-                <div class="subtitle">
-                    xxxxxxxxxxxxxxx
+                <h1 class="title">คูปองส่วนลด</h1>
+                <div class="is-multiline columns is-variable is-3">
+                    <div class="column is-2" v-for="coupon in coupons">
+                        <div class="card">
+                            <div class="card-image">
+                                <!-- image -->
+                                <figure class="image is-1by1">
+                                    <img src="https://cdn.discordapp.com/attachments/871416792613027851/969933848878141490/unknown.png" alt="Placeholder image">
+                                </figure>
+                            </div>
+                            <div class="card-content">
+                                <div class="media">
+                                    <!-- Price -->
+                                    <div class="media-content">
+                                        <p class="subtitle is-7">ส่วนลด <br>
+                                            <strong class="title is-6">฿ {{ coupon.price }}</strong>
+                                        </p>
+                                        <hr>
+                                        <p class="is-size-7">code: <strong class="title is-7">{{ coupon.code }}</strong></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
+
+            <hr style="height: 1px; background: rgb(221, 212, 212);">
 
             <!-- Card Product -->
             <section class="section">
@@ -102,18 +125,18 @@
                             <div class="card-image">
                                 <!-- image -->
                                 <figure class="image is-1by1">
-                                    <img src="http://1.bp.blogspot.com/-CY6Dp8YzhYU/UUtV35dxZeI/AAAAAAAAAGg/rhdO471T3kw/s1600/bestin-product-range.jpg" alt="Placeholder image">
+                                    <img :src="product.image" alt="Placeholder image">
                                 </figure>
-                                <!-- รหัส -->
-                                <div class="pl-5">
-                                    <p class="subtitle is-7 has-text-grey-light has-text-weight-light">รหัส #{{ product.id }}</p>
-                                </div>
                             </div>
                             <div class="card-content">
                                 <div class="media">
-                                    <!-- Name -->
                                     <div class="media-content">
-                                        <a href="http://">
+                                        <!-- รหัส -->
+                                        <div>
+                                            <p class="subtitle is-7 has-text-grey-light has-text-weight-light">รหัส #{{ product.id }}</p>
+                                        </div>
+                                        <!-- Name -->
+                                        <a href="product.html">
                                             <p class="has-text-black has-text-weight-medium is-6">{{ product.name }}</p>
                                         </a>
                                     </div>
@@ -141,7 +164,7 @@
 
         <!-- (3) ส่วนท้าย -->
         <footer id="end" class="footer">
-            <div class="content has-text-centered">
+            <div class="content has-text-centered" id="footer-text">
                 © สงวนลิขสิทธิ์ 2022 โดย MartNextGen จำกัด
             </div>
         </footer>
@@ -155,28 +178,45 @@
                 products: [
                     {
                         id: 1,
-                        name: 'pro1',
-                        price: 100
+                        name: 'Sorbet lemon',
+                        price: 150,
+                        image: 'https://tmbidigitalassetsazure.blob.core.windows.net/rms3-prod/attachments/37/1200x1200/Lemon-Sherbet_EXPS_FT21_35597_F_0520_1.jpg'
                     },
                     {
                         id: 2,
-                        name: 'pro1',
-                        price: 100
+                        name: 'Deathnote lecture',
+                        price: 1200,
+                        image: 'https://cf.shopee.co.th/file/2ec54f4b86212faa5d1ad3b600bc26f6'
                     },
                     {
                         id: 3,
-                        name: 'pro1',
-                        price: 100
+                        name: 'Anabell Doll',
+                        price: 660,
+                        image: 'https://cdn.discordapp.com/attachments/871416792613027851/969931976456962078/unknown.png'
                     },
                     {
                         id: 4,
-                        name: 'pro1',
-                        price: 100
+                        name: 'Sausage Isan',
+                        price: 250,
+                        image: 'https://cf.shopee.co.th/file/2ec54f4b86212faa5d1ad3b600bc26f6'
+                    }
+                ],
+                coupons: [
+                    {
+                        price: 20,
+                        code: 'fuB5QU5T'
                     },
                     {
-                        id: 5,
-                        name: 'pro1',
-                        price: 100
+                        price: 30,
+                        code: 'o6XaBOdN'
+                    },
+                    {
+                        price: 50,
+                        code: 'Cc5hraHh'
+                    },
+                    {
+                        price: 250,
+                        code: 'MEt1tSIG'
                     },
                 ]
             }
