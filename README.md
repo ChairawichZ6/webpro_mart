@@ -7,5 +7,5 @@ github นี้ ทำเพื่อเก็บโครงงาน final pr
 
 notes
 สำหรับใช้ทดลองระบบ
-admin
+username: admin
 password : Aa123456
