@@ -2,7 +2,7 @@
   <div class="container is-widescreen">
     <section class="hero">
       <div class="hero-body">
-        <p class="title">My Stories</p>
+        <p class="title">My Items</p>
         <div class="columns">
           <div class="column is-half">
             <input class="input" type="text" v-model="search" placeholder="Search blog(s)" />
