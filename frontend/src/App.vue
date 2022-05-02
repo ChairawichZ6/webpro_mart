@@ -74,10 +74,10 @@
 
                     <div class="navbar-dropdown">
                         <hr class="navbar-divider">
-                        <a class="navbar-item">
+                        <router-link to="/user/login" class="navbar-item">
                             <i class="fa fa-user fa-lg pr-5"></i>
                             เข้าสู่ระบบ
-                        </a>
+                        </router-link>
                         <router-link to="/user/signup" class="navbar-item">
                             <i class="fa fa-user-plus fa-lg pr-4"></i>
                             สมัครสมาชิก
@@ -90,7 +90,7 @@
     </nav>
 
     <!-- (2) Home -->
-    <router-view :key="$route.fullPath" />
+    <router-view :key="$route.fullPath" @auth-change="onAuthChange" :user="user"/>
 
     <!-- (3) ส่วนท้าย -->
     <footer id="end" class="footer">
@@ -100,3 +100,31 @@
     </footer>
   </div>
 </template>
+
+<script>
+import axios from '@/plugins/axios'
+
+export default {
+  data () {
+    return {
+      user: null
+    }
+  },
+  mounted () {
+    this.onAuthChange()
+  },
+  methods: {
+    onAuthChange () {
+      const token = localStorage.getItem('token')
+      if (token) {
+        this.getUser()
+      }
+    },
+    getUser () {
+      axios.get('/user/me').then(res => {
+         this.user = res.data
+      })
+    },
+  }
+}
+</script>
