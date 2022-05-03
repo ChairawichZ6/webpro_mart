@@ -8,6 +8,7 @@ async function logger (req, res, next) {
 
 async function isLoggedIn (req, res, next) {
      let authorization = req.headers.authorization
+     console.log(authorization)
 
      if (!authorization) {
          return res.status(401).send('You are not logged in 1')

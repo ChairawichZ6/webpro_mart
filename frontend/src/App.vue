@@ -8,8 +8,8 @@
     padding: 20px;
 }
 .container {
-    padding-top: 7%;
-    padding-bottom: 7%;
+    padding-top: 4%;
+    padding-bottom: 5%;
 }
 #end{
     background: hsl(217, 71%, 53%);
@@ -38,7 +38,7 @@
         <!-- Menu -->
         <div class="navbar-menu">
             <div class="navbar-start">
-                <a href="index.html" class="navbar-item">หน้าหลัก</a>
+                <a class="navbar-item">หน้าหลัก</a>
             </div>
 
             <div class="navbar-end">
@@ -67,22 +67,35 @@
 
                 <!-- Login -->
                 <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link">
+                    <a class="navbar-link" v-if="user">
+                        <i class="fa fa-user-circle fa-2x px-2"></i>
+                        <span>{{ user.username }}</span>
+                    </a>
+                    <a class="navbar-link" v-if="!user">
                         <i class="fa fa-user-circle fa-2x px-2"></i>
                         <span>เข้าสู่ระบบ</span>
                     </a>
 
                     <div class="navbar-dropdown">
                         <hr class="navbar-divider">
-                        <router-link to="/user/login" class="navbar-item">
+                        <router-link to="/user/login" class="navbar-item" v-if="!user">
                             <i class="fa fa-user fa-lg pr-5"></i>
                             เข้าสู่ระบบ
                         </router-link>
-                        <router-link to="/user/signup" class="navbar-item">
+                        <router-link to="/user/signup" class="navbar-item" v-if="!user">
                             <i class="fa fa-user-plus fa-lg pr-4"></i>
                             สมัครสมาชิก
                         </router-link>
+
+                        <router-link to="/profile" class="navbar-item">
+                            <i class="fa fa-address-card fa-lg pr-4"></i>
+                            โปรไฟล์
+                        </router-link>
                         <hr class="navbar-divider">
+                        <a class="navbar-item" @click="logout()" v-if="user">
+                            <i class="fa fa-door-open fa-lg pr-4"></i>
+                            <span>ออกจากระบบ</span>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -102,7 +115,7 @@
 </template>
 
 <script>
-import axios from '@/plugins/axios'
+import axios from '@/plugins/axios';
 
 export default {
   data () {
@@ -125,6 +138,11 @@ export default {
          this.user = res.data
       })
     },
+    logout() {
+        localStorage.removeItem('token');
+        alert('ออกจากระบบสำเร็จแล้ว')
+        this.user = null
+    }
   }
 }
 </script>

@@ -9,13 +9,10 @@
 </style>
 
 <template>
-  <div class="container is-fluid mt-5">
-    <p
-          v-if="error"
-          class="px-3 py-2 mb-3 has-text-danger-dark has-background-danger-light"
-        >
-          {{ error }}
-        </p>
+  <div class="container is-fluid">
+    <p v-if="error" class="px-3 py-2 mb-3 has-text-danger-dark has-background-danger-light has-text-centered">
+      {{ error }}
+    </p>
     <div id="detail_login" class="container ">
       <div class="card px-3">
         <div class="card-content">
@@ -60,7 +57,7 @@
 </template>
 
 <script>
-import axios from '@/plugins/axios'
+import axios from '@/plugins/axios';
 
 export default {
   data () {

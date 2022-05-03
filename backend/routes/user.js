@@ -113,12 +113,12 @@ router.post('/user/login', async (req, res, next) => {
         const user = users[0]
         // console.log(user)
         if (!user) {
-            throw new Error('Incorrect username or password 1')
+            throw new Error('ชื่อผู้ใช้ไม่ถูกต้อง')
         }
 
         // Check if password is correct
         if (!(await bcrypt.compare(password, user.password))) {
-            throw new Error('Incorrect username or password 2')
+            throw new Error('รหัสผ่านไม่ถูกต้อง')
         }
         // if (!(password == user.password)) {
         //     throw new Error('Incorrect username or password 2')
@@ -153,25 +153,6 @@ router.post('/user/login', async (req, res, next) => {
 
 router.get('/user/me', isLoggedIn, async (req, res, next) => {
     res.json(req.user)
-})
-
-router.delete('/user/logout', isLoggedIn, async (req, res, next) => {
-    const conn = await pool.getConnection();
-    await conn.beginTransaction();
-
-    try {
-        const [rows, fields] = await conn.query(
-            'DELETE FROM tokens WHERE user_id = ?',
-            [req.user.user_id]
-        )
-        await conn.commit()
-        res.json("Logout")
-        res.redirect('/user/login')
-    } catch (error) {
-        res.status(500).json(error)
-    }finally {
-        conn.release();
-    }
 })
 
 

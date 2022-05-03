@@ -1,7 +1,5 @@
 <style scoped>
 #detail_login {
-    /* padding-top: 10px;
-    padding-bottom: 10px; */
     width: 40%;
 }
 #hide {
@@ -11,7 +9,7 @@
 </style>
 
 <template>
-<div class="container is-fluid mt-5">
+<div class="container is-fluid">
     <div id="detail_login" class="container">
         <div class="card px-3">
             <div class="card-content">
@@ -150,7 +148,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from '@/plugins/axios'
 import { required, email, minLength, maxLength, sameAs } from 'vuelidate/lib/validators'
 
 function mobile (value) {
