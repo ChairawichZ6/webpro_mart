@@ -20,6 +20,12 @@ const routes = [
     meta: { guess: true },
     component: () => import('../views/Login.vue')
   },
+  {
+    path: '/profile',
+    name: 'profile',
+    meta: { login: true },
+    component: () => import('../views/Profile.vue')
+  },
 
 ]
 

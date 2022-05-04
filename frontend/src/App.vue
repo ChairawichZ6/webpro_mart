@@ -37,7 +37,7 @@
       <!-- Menu -->
       <div class="navbar-menu">
         <div class="navbar-start">
-          <a class="navbar-item">หน้าหลัก</a>
+          <router-link to="/" class="navbar-item">หน้าหลัก</router-link>
         </div>
 
         <div class="navbar-end">
@@ -92,7 +92,7 @@
                 สมัครสมาชิก
               </router-link>
 
-              <router-link to="/profile" class="navbar-item">
+              <router-link to="/profile" class="navbar-item" v-if="isProfileOwner()">
                 <i class="fa fa-address-card fa-lg pr-4"></i>
                 โปรไฟล์
               </router-link>
@@ -170,6 +170,10 @@ export default {
       alert("ออกจากระบบสำเร็จแล้ว");
       this.user = null;
     },
+    isProfileOwner () {
+      if (!this.user) return false
+      return this.user.type === 'customer'
+    }
   },
 };
 </script>
