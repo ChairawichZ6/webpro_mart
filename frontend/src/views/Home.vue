@@ -72,11 +72,11 @@
                     </p>
                   </div>
                   <!-- Name -->
-                  <a href="product.html">
+                    <router-link :to="`/ProductDetail/${product.product_code}`">
                     <p class="has-text-black has-text-weight-medium is-6">
                       {{ product.product_name }}
                     </p>
-                  </a>
+                    </router-link>
                 </div>
               </div>
               <div class="media">
