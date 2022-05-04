@@ -118,7 +118,7 @@ export default {
         .get(`http://localhost:3000/ProductDetail/${productId}`)
         .then((response) => {
             this.productDetails = response.data
-            console.log(response.data)
+            // console.log(response.data)
         })
         .catch((error) => {
           this.error = error.response.data.message;
