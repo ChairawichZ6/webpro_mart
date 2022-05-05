@@ -12,7 +12,7 @@
   padding-bottom: 5%;
 }
 #end {
-  background: #485fc7;
+  background: #3273dc;
   color: aliceblue;
   font-weight: 400;
   height: 10px;
@@ -66,7 +66,7 @@
           </div>
 
           <!-- ตะกร้า สินค้า -->
-          <a class="navbar-item is-size-4 px-5">
+          <a v-if="isUserOwner()" class="navbar-item is-size-4 px-5">
             <i class="fa fa-shopping-cart fa-2x"></i>
           </a>
 
@@ -82,7 +82,7 @@
             </a>
 
             <div class="navbar-dropdown">
-              <hr class="navbar-divider" />
+              <hr v-if="isUserOwner()" class="navbar-divider" />
               <router-link to="/user/login" class="navbar-item" v-if="!user">
                 <i class="fa fa-user fa-lg pr-5"></i>
                 เข้าสู่ระบบ
@@ -92,11 +92,11 @@
                 สมัครสมาชิก
               </router-link>
 
-              <router-link to="/profile" class="navbar-item" v-if="isProfileOwner()">
+              <router-link to="/profile" class="navbar-item" v-if="isUserOwner()">
                 <i class="fa fa-address-card fa-lg pr-4"></i>
                 โปรไฟล์
               </router-link>
-              <hr class="navbar-divider" />
+              <hr v-if="isUserOwner()" class="navbar-divider" />
               <a class="navbar-item" @click="logout()" v-if="user">
                 <i class="fa fa-door-open fa-lg pr-4"></i>
                 <span>ออกจากระบบ</span>
@@ -113,6 +113,7 @@
       @auth-change="onAuthChange"
       :user="user"
       :products="products"
+      :coupons="coupons"
     />
 
     <!-- (3) ส่วนท้าย -->
@@ -133,11 +134,13 @@ export default {
       search: "",
       user: null,
       products: [],
+      coupons: [],
     };
   },
   mounted() {
     this.onAuthChange();
     this.getProducts();
+    this.getCoupons();
   },
   methods: {
     getProducts () {
@@ -153,6 +156,15 @@ export default {
         .catch((err) => {
           console.log(err)
         });
+    },
+    getCoupons() {
+      axios.get("/coupon")
+      .then((res) => {
+        this.coupons = res.data
+      })
+      .catch((err) => {
+        console.log(err)
+      });
     },
     onAuthChange() {
       const token = localStorage.getItem("token");
@@ -170,9 +182,13 @@ export default {
       alert("ออกจากระบบสำเร็จแล้ว");
       this.user = null;
     },
-    isProfileOwner () {
+    isUserOwner () {
       if (!this.user) return false
       return this.user.type === 'customer'
+    },
+    isAdmin () {
+      if (!this.user) return false
+      return this.user.type === 'admin'
     }
   },
 };

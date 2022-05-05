@@ -20,4 +20,13 @@ router.get("/", async function (req, res, next) {
   }
 });
 
+router.get("/coupon", async function (req, res, next) {
+  try {
+    const [rows, fields] = await pool.query('SELECT * FROM coupon');
+    res.json(rows)
+  } catch (err) {
+    res.status(500).json(err)
+  }
+});
+
 exports.router = router;

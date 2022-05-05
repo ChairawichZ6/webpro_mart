@@ -1,7 +1,7 @@
 <template>
   <div class="container is-max-desktop">
     <!-- ส่วนลด -->
-    <section class="section">
+    <section v-if="user" class="section">
       <h1 class="title">คูปองส่วนลด</h1>
       <div class="is-multiline columns is-variable is-3">
         <div class="column is-2" v-for="coupon in coupons" :key="coupon.id">
@@ -21,7 +21,7 @@
                 <div class="media-content">
                   <p class="subtitle is-7">
                     ส่วนลด <br />
-                    <strong class="title is-6">฿ {{ coupon.price }}</strong>
+                    <strong class="title is-6">฿ {{ coupon.discount }}</strong>
                   </p>
                   <hr />
                   <p class="is-size-7">
@@ -35,11 +35,16 @@
       </div>
     </section>
 
-    <hr style="height: 1px; background: rgb(221, 212, 212)" />
+    <hr v-if="user" style="height: 1px; background: rgb(221, 212, 212)" />
 
     <!-- Card Product -->
     <section class="section">
-      <h1 class="title">สินค้า</h1>
+      <h1 class="title">
+        สินค้า
+        <a class="icon is-medium" @click="showModalAdd = !showModalAdd">
+          <i class="fas fa-lg fa-plus-circle"></i>
+        </a>
+      </h1>
       <div class="is-multiline columns is-variable is-3">
         <div
           class="column is-3"
@@ -84,15 +89,18 @@
                 <div class="media-content">
                   <p class="subtitle is-7">
                     ราคา
-                    <strong class="title is-6">฿ {{ product.product_price }}</strong>
+                    <strong class="title is-6"
+                      >฿ {{ product.product_price }}</strong
+                    >
                   </p>
                 </div>
               </div>
+              <!-- >>>>>ไอคอนรูปตะกร้า <<<<<< -->
               <div
+                v-if="isUserOwner()"
                 class="button is-warning is-outlined is-rounded"
                 style="width: 100%"
               >
-                <!-- >>>>>ไอคอนรูปตะกร้า <<<<<<,s----------------------------------------->
                 <div class="icon is-size-4">
                   <i class="fa fa-shopping-cart"></i>
                 </div>
@@ -102,40 +110,134 @@
         </div>
       </div>
     </section>
+    <!-- ส่วนของ Add Product -->
+    <div class="modal" :class="{ 'is-active': showModalAdd }">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">เพิ่มสินค้า</p>
+          <button
+            class="delete"
+            aria-label="close"
+            @click="showModalAdd = !showModalAdd"
+          ></button>
+        </header>
+        <section class="modal-card-body px-6 py-6">
+          <div class="columns">
+            <div class="column is-6">
+              <label class="label has-text-weight-normal">ชื่อสินค้า</label>
+              <input v-model="productName" class="input" type="text" />
+            </div>
+            <div class="column is-6">
+              <label class="label has-text-weight-normal">ราคา</label>
+              <input v-model="productPrice" class="input" type="text" />
+            </div>
+          </div>
+          <div class="control">
+            <label class="label has-text-weight-normal">รายละเอียดสินค้า</label>
+            <textarea v-model="productDetail" class="textarea"></textarea>
+          </div>
+
+          <!-- Image Uploade-->
+          <div class="control mt-5">
+            <label class="label has-text-weight-normal">รูปภาพสินค้า</label>
+            <input
+              class="input"
+              multiple
+              type="file"
+              accept="image/png, image/jpeg, image/webp"
+              @change="selectImages"
+            />
+            <div v-if="images" class="columns is-multiline">
+              <div
+                v-for="(image, index) in images"
+                :key="image.id"
+                class="column is-one-quarter"
+              >
+                <div class="card">
+                  <div class="card-image">
+                    <figure class="image is-4by3">
+                      <img
+                        :src="showSelectImage(image)"
+                        alt="Placeholder image"
+                      />
+                    </figure>
+                  </div>
+                  <footer class="card-footer">
+                    <a
+                      @click="deleteSelectImage(index)"
+                      class="card-footer-item has-text-danger"
+                      >Delete</a
+                    >
+                  </footer>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          <button class="button is-info" @click="submitProduct">
+            บันทึก
+          </button>
+        </footer>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-// import axios from "axios";
-// @ is an alias to /src
+import axios from "axios";
+
 export default {
   name: "Home",
-  props: [
-    "user",
-    "products"
-  ],
+  props: ["user", "products", "coupons"],
   data() {
     return {
-      coupons: [
-        {
-          price: 20,
-          code: "fuB5QU5T",
-        },
-        {
-          price: 30,
-          code: "o6XaBOdN",
-        },
-        {
-          price: 50,
-          code: "Cc5hraHh",
-        },
-        {
-          price: 250,
-          code: "MEt1tSIG",
-        },
-      ],
+      showModalAdd: false,
+      productName: "",
+      productPrice: 0,
+      productDetail: "",
+      images: [],
     };
   },
-  methods: {},
+  methods: {
+    selectImages(event) {
+      this.images = event.target.files;
+      // this.images.push(event.target.files)
+    },
+    showSelectImage(image) {
+      return URL.createObjectURL(image); //ไว้โชว์รูปให้ดู
+    },
+    deleteSelectImage(index) {
+      console.log(this.images);
+      this.images = Array.from(this.images);
+      this.images.splice(index, 1);
+    },
+    submitProduct() {
+      let formData = new FormData();
+      formData.append("product_name", this.productName);
+      formData.append("product_price", this.productPrice);
+      formData.append("des_product", this.productDetail);
+      this.images.forEach((image) => {
+        formData.append("myImage", image);
+      });
+
+      axios
+        .post("/products", formData,)
+        .then((res) => {
+          alert("บันทึกสำเร็จแล้ว");
+          showModalAdd = false;
+        })
+        .catch((err) => console.log(e.response.data));
+    },
+    isUserOwner() {
+      if (!this.user) return false;
+      return this.user.type === "customer";
+    },
+    isAdmin() {
+      if (!this.user) return false;
+      return this.user.type === "admin";
+    },
+  },
 };
 </script>

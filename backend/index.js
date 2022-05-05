@@ -1,13 +1,13 @@
 const express = require("express")
-
 const app = express();
+const path = require("path")
 const cors = require('cors')
 const { logger } = require('./middlewares')
 
 app.use(logger)
 app.use(cors())
 
-// Statics
+// Statics => built-in middleware 3 ตัวนี้
 app.use(express.static('static'))
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
@@ -15,14 +15,12 @@ app.use(express.urlencoded({ extended: true })) // for parsing application/x-www
 // routers
 const indexRouter = require('./routes/index')
 const profileRouter = require('./routes/profile')
-// const commentRouter = require('./routes/comment')
-// const imageRouter = require('./routes/image')
+const productRouter = require('./routes/product')
 const userRouter = require('./routes/user')
 
 app.use(indexRouter.router)
 app.use(profileRouter.router)
-// app.use(commentRouter.router)
-// app.use(imageRouter.router)
+app.use(productRouter.router)
 app.use(userRouter.router)
 
 app.listen(3000, () => {
