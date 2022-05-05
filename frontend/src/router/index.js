@@ -32,6 +32,12 @@ const routes = [
     meta: { login: true },
     component: () => import('../views/DetailProduct.vue')
   },
+  { 
+    path: '/cart/:userId',
+    name: 'CartProduct',
+    meta: { login: true },
+    component: () => import('../views/Cartitem.vue')
+  },
 ]
 
 const router = new VueRouter({ routes })

@@ -66,9 +66,11 @@
           </div>
 
           <!-- ตะกร้า สินค้า -->
+          <router-link :to="`/cart/${user.user_id}`">
           <a v-if="isUserOwner()" class="navbar-item is-size-4 px-5">
             <i class="fa fa-shopping-cart fa-2x"></i>
           </a>
+          </router-link>
 
           <!-- Login -->
           <div class="navbar-item has-dropdown is-hoverable">
