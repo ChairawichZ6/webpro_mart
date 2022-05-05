@@ -38,7 +38,7 @@
     <hr v-if="user" style="height: 1px; background: rgb(221, 212, 212)" />
 
     <!-- Card Product -->
-    <section class="section">
+    <section v-if="productNew.length != 0" class="section">
       <h1 class="title">
         สินค้า
         <a class="icon is-medium" @click="showModalAdd = !showModalAdd">
@@ -48,7 +48,7 @@
       <div class="is-multiline columns is-variable is-3">
         <div
           class="column is-3"
-          v-for="product in products"
+          v-for="product in productNew"
           :key="product.product_code"
         >
           <div class="card">
@@ -56,7 +56,7 @@
               <!-- image -->
               <figure class="image is-1by1">
                 <img
-                  src="https://bulma.io/images/placeholders/128x128.png"
+                  :src="'http://localhost:3000' + product.img"
                   alt="Placeholder image"
                 />
               </figure>
@@ -77,11 +77,11 @@
                     </p>
                   </div>
                   <!-- Name -->
-                    <router-link :to="`/ProductDetail/${product.product_code}`">
+                  <router-link :to="`/ProductDetail/${product.product_code}`">
                     <p class="has-text-black has-text-weight-medium is-6">
                       {{ product.product_name }}
                     </p>
-                    </router-link>
+                  </router-link>
                 </div>
               </div>
               <div class="media">
@@ -93,6 +93,132 @@
                       >฿ {{ product.product_price }}</strong
                     >
                   </p>
+                </div>
+              </div>
+              <div class="columns">
+                <!-- btn Edit -->
+                <div class="column is-6">
+                  <div
+                    v-if="isAdmin()"
+                    class="button is-primary is-outlined is-rounded"
+                    style="width: 100%"
+                  >
+                    <div class="icon is-size-4">
+                      <i class="fas fa-edit"></i>
+                    </div>
+                  </div>
+                </div>
+                <!-- btn Delete -->
+                <div class="column is-6">
+                  <div
+                    v-if="isAdmin()"
+                    class="button is-danger is-outlined is-rounded"
+                    style="width: 100%"
+                    @click="deleteProduct(product.product_code, product)"
+                  >
+                    <div class="icon is-size-4">
+                      <i class="fas fa-trash-alt"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- >>>>>ไอคอนรูปตะกร้า <<<<<< -->
+              <div
+                v-if="isUserOwner()"
+                class="button is-warning is-outlined is-rounded"
+                style="width: 100%"
+              >
+                <div class="icon is-size-4">
+                  <i class="fa fa-shopping-cart"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section v-else class="section">
+      <h1 class="title">
+        สินค้า
+        <a class="icon is-medium" @click="showModalAdd = !showModalAdd">
+          <i class="fas fa-lg fa-plus-circle"></i>
+        </a>
+      </h1>
+      <div class="is-multiline columns is-variable is-3">
+        <div
+          class="column is-3"
+          v-for="product in products"
+          :key="product.product_code"
+        >
+          <div class="card">
+            <div class="card-image">
+              <!-- image -->
+              <figure class="image is-1by1">
+                <img
+                  :src="'http://localhost:3000' + product.img"
+                  alt="Placeholder image"
+                />
+              </figure>
+            </div>
+            <div class="card-content">
+              <div class="media">
+                <div class="media-content">
+                  <!-- รหัส -->
+                  <div>
+                    <p
+                      class="
+                        subtitle
+                        is-7
+                        has-text-grey-light has-text-weight-light
+                      "
+                    >
+                      รหัส #{{ product.product_code }}
+                    </p>
+                  </div>
+                  <!-- Name -->
+                  <router-link :to="`/ProductDetail/${product.product_code}`">
+                    <p class="has-text-black has-text-weight-medium is-6">
+                      {{ product.product_name }}
+                    </p>
+                  </router-link>
+                </div>
+              </div>
+              <div class="media">
+                <!-- Price -->
+                <div class="media-content">
+                  <p class="subtitle is-7">
+                    ราคา
+                    <strong class="title is-6"
+                      >฿ {{ product.product_price }}</strong
+                    >
+                  </p>
+                </div>
+              </div>
+              <div class="columns">
+                <!-- btn Edit -->
+                <div class="column is-6">
+                  <div
+                    v-if="isAdmin()"
+                    class="button is-primary is-outlined is-rounded"
+                    style="width: 100%"
+                  >
+                    <div class="icon is-size-4">
+                      <i class="fas fa-edit"></i>
+                    </div>
+                  </div>
+                </div>
+                <!-- btn Delete -->
+                <div class="column is-6">
+                  <div
+                    v-if="isAdmin()"
+                    class="button is-danger is-outlined is-rounded"
+                    style="width: 100%"
+                    @click="deleteProduct(product.product_code, product)"
+                  >
+                    <div class="icon is-size-4">
+                      <i class="fas fa-trash-alt"></i>
+                    </div>
+                  </div>
                 </div>
               </div>
               <!-- >>>>>ไอคอนรูปตะกร้า <<<<<< -->
@@ -143,40 +269,15 @@
             <label class="label has-text-weight-normal">รูปภาพสินค้า</label>
             <input
               class="input"
-              multiple
+              name="myImage"
               type="file"
               accept="image/png, image/jpeg, image/webp"
               @change="selectImages"
             />
-            <div v-if="images" class="columns is-multiline">
-              <div
-                v-for="(image, index) in images"
-                :key="image.id"
-                class="column is-one-quarter"
-              >
-                <div class="card">
-                  <div class="card-image">
-                    <figure class="image is-4by3">
-                      <img
-                        :src="showSelectImage(image)"
-                        alt="Placeholder image"
-                      />
-                    </figure>
-                  </div>
-                  <footer class="card-footer">
-                    <a
-                      @click="deleteSelectImage(index)"
-                      class="card-footer-item has-text-danger"
-                      >Delete</a
-                    >
-                  </footer>
-                </div>
-              </div>
-            </div>
           </div>
         </section>
         <footer class="modal-card-foot">
-          <button class="button is-info" @click="submitProduct">
+          <button class="button is-info" @click="submitProduct()">
             บันทึก
           </button>
         </footer>
@@ -186,49 +287,66 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "@/plugins/axios";
 
 export default {
   name: "Home",
   props: ["user", "products", "coupons"],
   data() {
     return {
+      productNew: [],
       showModalAdd: false,
       productName: "",
       productPrice: 0,
       productDetail: "",
-      images: [],
+      images: "",
     };
   },
   methods: {
     selectImages(event) {
-      this.images = event.target.files;
-      // this.images.push(event.target.files)
+      this.images = event.target.files[0];
     },
-    showSelectImage(image) {
-      return URL.createObjectURL(image); //ไว้โชว์รูปให้ดู
-    },
-    deleteSelectImage(index) {
-      console.log(this.images);
-      this.images = Array.from(this.images);
-      this.images.splice(index, 1);
+    deleteProduct(proId, item) {
+      const result = confirm(`ต้องการลบ \'${item.product_name}\' ใช่หรือไม่?`);
+      if (result) {
+        axios
+          .delete(`/products/${proId}`)
+          .then((res) => {
+            this.getProduct();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     },
     submitProduct() {
       let formData = new FormData();
       formData.append("product_name", this.productName);
       formData.append("product_price", this.productPrice);
       formData.append("des_product", this.productDetail);
-      this.images.forEach((image) => {
-        formData.append("myImage", image);
-      });
+      formData.append("myImage", this.images);
 
+      const result = confirm(`ต้องการเพิ่มสินค้าชิ้นนี้หรือไม่?`);
+      if (result) {
+        axios
+          .post("/products", formData)
+          .then((res) => {
+            this.getProduct();
+            this.showModalAdd = false;
+            console.log(res);
+          })
+          .catch((err) => console.log(err));
+      }
+    },
+    getProduct() {
       axios
-        .post("/products", formData,)
+        .get("/poducts")
         .then((res) => {
-          alert("บันทึกสำเร็จแล้ว");
-          showModalAdd = false;
+          this.productNew = res.data;
         })
-        .catch((err) => console.log(e.response.data));
+        .catch((err) => {
+          console.log(err);
+        });
     },
     isUserOwner() {
       if (!this.user) return false;

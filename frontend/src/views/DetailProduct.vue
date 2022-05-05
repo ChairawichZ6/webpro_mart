@@ -13,7 +13,7 @@
                 <!-- รูปภาพ -->
                 <div class="media-left">
                   <figure class="image" style="max-width: 250px">
-                    <img :src="imagePath(productDetails[0].img)" alt="Placeholder image" />
+                    <img :src="'http://localhost:3000'+productDetails[0].img" alt="Placeholder image" />
                   </figure>
                 </div>
                 <div class="media-content pl-6">
@@ -127,7 +127,7 @@ export default {
     imagePath(img) {
       if (img){
         return 'http://localhost:3000/' + img
-      } 
+      }
       else {
         return 'https://bulma.io/images/placeholders/640x360.png'
       }

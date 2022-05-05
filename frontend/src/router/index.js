@@ -26,7 +26,7 @@ const routes = [
     meta: { login: true },
     component: () => import('../views/Profile.vue')
   },
-  { 
+  {
     path: '/ProductDetail/:productId',
     name: 'DetailProduct',
     meta: { login: true },
